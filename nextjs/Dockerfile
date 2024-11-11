@@ -3,12 +3,11 @@ WORKDIR /app
 COPY package*.json .
 RUN npm install
 COPY . .
-RUN npm run build
+RUN npm run standalone
 
 FROM node:20-alpine
 WORKDIR /app
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app .
+COPY --from=builder /app/.next/standalone .
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
