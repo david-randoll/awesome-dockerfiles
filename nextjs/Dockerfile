@@ -5,7 +5,8 @@ RUN npm install
 COPY . .
 RUN npm run standalone
 
-FROM node:20-alpine
+FROM alpine:3.20
+RUN apk add --no-cache nodejs
 WORKDIR /app
 COPY --from=builder /app/.next/standalone .
 
