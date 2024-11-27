@@ -1,13 +1,18 @@
 # Stage 1: Build the application
-FROM maven:3.9.9-eclipse-temurin-21 as build
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY . .
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Stage 2: Create the runtime image
 FROM openjdk:21-jdk-slim
+RUN addgroup --system --gid 1001 spring && \
+    adduser --system --uid 1001 spring && \
+    mkdir -p /app && \
+    chown -R spring:spring /app
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build --chown=spring:spring /app/target/*.jar app.jar
+USER spring
 EXPOSE 8080
 ENV server.port=8080
 CMD ["java", "-jar", "app.jar"]
