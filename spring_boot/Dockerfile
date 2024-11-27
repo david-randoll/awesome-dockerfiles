@@ -13,5 +13,4 @@ WORKDIR /app
 COPY --from=build --chown=spring:spring /app/target/*.jar app.jar
 USER spring
 EXPOSE 8080
-ENV server.port=8080
 CMD ["java", "-jar", "app.jar"]
