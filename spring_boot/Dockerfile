@@ -1,34 +1,66 @@
-# https://medium.com/@RoussiAbdelghani/optimizing-java-base-docker-images-size-from-674mb-to-58mb-c1b7c911f622
-FROM maven:3.9.9-eclipse-temurin-21 AS build
-WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
-
+# First stage, build the custom JRE
 FROM eclipse-temurin:21-jdk-alpine AS jre-builder
-RUN apk update &&  \
-    apk add --no-cache binutils && \
-    "$JAVA_HOME/bin/jlink" \
+
+RUN mkdir /opt/app
+COPY . /opt/app
+
+WORKDIR /opt/app
+
+ENV MAVEN_VERSION 3.6.3
+ENV MAVEN_HOME /usr/lib/mvn
+ENV PATH $MAVEN_HOME/bin:$PATH
+
+RUN apk update && \
+    apk add --no-cache tar binutils
+
+
+RUN wget http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+  tar -zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+  rm apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+  mv apache-maven-$MAVEN_VERSION /usr/lib/mvn
+
+RUN mvn package -DskipTests
+RUN jar xvf target/*.jar
+RUN jdeps --ignore-missing-deps -q  \
+    --recursive  \
+    --multi-release 21  \
+    --print-module-deps  \
+    --class-path 'BOOT-INF/lib/*'  \
+    target/*.jar > modules.txt
+
+# Build small JRE image
+RUN $JAVA_HOME/bin/jlink \
          --verbose \
-         --add-modules ALL-MODULE-PATH \
+         --add-modules $(cat modules.txt) \
          --strip-debug \
          --no-man-pages \
          --no-header-files \
          --compress=2 \
-         --output /javaruntime
+         --output /optimized-jdk-21
 
-FROM alpine:3.20 AS final
+# Second stage, Use the custom JRE and build the app image
+FROM alpine:latest
 ENV JAVA_HOME=/opt/jdk/jdk-21
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
-COPY --from=jre-builder /javaruntime $JAVA_HOME
 
-FROM final
-RUN addgroup --system --gid 1001 spring && \
-    adduser --system --uid 1001 spring && \
-    mkdir -p /app && \
-    chown -R spring:spring /app
+# copy JRE from the base image
+COPY --from=jre-builder /optimized-jdk-21 $JAVA_HOME
+
+# Add app user
+ARG APPLICATION_USER=spring
+
+# Create a user to run the application, don't run as root
+RUN addgroup --system $APPLICATION_USER &&  adduser --system $APPLICATION_USER --ingroup $APPLICATION_USER
+
+# Create the application directory
+RUN mkdir /app && chown -R $APPLICATION_USER /app
+
+COPY --from=jre-builder --chown=$APPLICATION_USER:$APPLICATION_USER /opt/app/target/*.jar /app/app.jar
+
 WORKDIR /app
-COPY --from=build --chown=spring:spring /app/target/*.jar app.jar
-USER spring
+
+USER $APPLICATION_USER
+
 EXPOSE 8080
-ENV server.port=8080
-CMD ["java", "-jar", "app.jar"]
+ENV SERVER_PORT=8080
+ENTRYPOINT [ "java", "-jar", "/app/app.jar" ]
