@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jre-alpine
 RUN addgroup --system --gid 1001 spring && \
     adduser --system --uid 1001 spring && \
     mkdir -p /app && \
