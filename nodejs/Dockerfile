@@ -3,6 +3,10 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --production
 COPY . .
+# Install node-prune and clean up node_modules
+RUN apk add --no-cache curl && \
+    curl -sfL https://gobinaries.com/tj/node-prune | sh && \
+    node-prune
 
 FROM alpine:3.20
 RUN apk add --no-cache nodejs npm && \
