@@ -3,7 +3,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --production
 COPY . .
+# use one of the following commands to build the app
 RUN npx @vercel/ncc build app.js -o dist
+# RUN npx esbuild app.js --bundle --platform=node --outfile=dist/index.js
 
 FROM alpine:3.20
 RUN apk add --no-cache nodejs && \
