@@ -21,7 +21,7 @@ Here are some stats for the current platforms:
 | Platform    | Original Size | Optimized Size |
 | ----------- | ------------- | -------------- |
 | Next.js     | 1GB           | 86MB           |
-| Node.js     | 940MB         | 68MB           |
+| Node.js     | 940MB         | 64MB           |
 | Spring Boot | 459MB         | 90MB           |
 
 ## How to Use
