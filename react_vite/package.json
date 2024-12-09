@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview --host"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
