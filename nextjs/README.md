@@ -1,7 +1,7 @@
 # Next.js App with Docker Support
 
-This repository includes a Dockerfile to build and run your Next.js application. Follow the steps below to configure
-your project for Docker support.
+This repository includes a Dockerfile to build and run your Next.js application. This repository aims to provide the smallest possible Docker image for your Next.js application.
+Follow the steps below to configure your project for Docker support.
 
 ## Setup Instructions
 
