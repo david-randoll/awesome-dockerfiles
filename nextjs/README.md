@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js App with Docker Support
 
-## Getting Started
+This repository includes a Dockerfile to build and run your Next.js application. Follow the steps below to configure
+your project for Docker support.
 
-First, run the development server:
+## Setup Instructions
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. Add a Standalone Script to `package.json`
+
+Add the following script to your `package.json` file under the `scripts` section:
+
+```json
+"standalone": "next build && cp -r public/ .next/standalone && cp -r .next/static .next/standalone/.next",
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+We'll be using nextjs's `standalone` script to prepare the necessary files for a production-ready application. This
+script will copy the `public` directory and the `static` directory to the `.next/standalone` directory so that we don't
+need to copy them manually in the final Docker image. Read more about
+[nextjs standalone here](https://nextjs.org/docs/pages/api-reference/next-config-js/output).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2. Update `next.config.ts`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create or update your `next.config.ts` file and add the output property with the value `standalone`:
 
-## Learn More
+```typescript
+import type { NextConfig } from "next";
 
-To learn more about Next.js, take a look at the following resources:
+const nextConfig: NextConfig = {
+    output: "standalone",
+};
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+export default nextConfig;
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Create a `.dockerignore` File
 
-## Deploy on Vercel
+Create a `.dockerignore` file in the root of your project and add the following:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+# .dockerignore file
+.DS_Store
+.next
+node_modules
+.gitignore
+README.md
+.dockerignore
+LICENSE
+.docker
+.gitlab
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Build the Docker Image
+
+Run the following command to build the Docker image for your Next.js application:
+
+```bash
+docker build -t nextjs .
+```
+
+Replace `your-app-name` with the desired name for your Docker image.
+
+## Additional Notes
+
+-   Ensure you have Docker installed and running on your system.
+-   The `standalone` script prepares the necessary files for a production-ready Docker build.
+-   Customize the Dockerfile as needed for your specific deployment requirements.
+
+You're now ready to run your Next.js app using Docker!
