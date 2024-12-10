@@ -2,6 +2,8 @@
 .DS_Store
 .next
 node_modules
+.vite
+.git
 .gitignore
 README.md
 .dockerignore
