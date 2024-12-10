@@ -7,9 +7,10 @@ making it easier to create lightweight and efficient Docker images for your proj
 
 This repository currently includes Dockerfiles for the following platforms:
 
--   **Next.js**
--   **Node.js**
--   **Spring Boot**
+-   [**Next.js**](nextjs)
+-   [**React Vite**](react_vite)
+-   [**Node.js**](nodejs)
+-   [**Spring Boot**](spring_boot)
 
 More platforms will be added over time as the repository evolves (PR Welcome).
 
