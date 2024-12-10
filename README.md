@@ -22,7 +22,7 @@ Here are some stats for the current platforms:
 | Platform    | Original Size | Optimized Size |
 | ----------- | ------------- | -------------- |
 | Next.js     | 1GB           | 86MB           |
-| React Vite  | 1.4GB         | 9MB            |
+| React Vite  | 1.4GB         | 7MB            |
 | Node.js     | 940MB         | 64MB           |
 | Spring Boot | 459MB         | 90MB           |
 
