@@ -1,3 +1,4 @@
+# Build stage
 FROM node:23-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
@@ -5,9 +6,10 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# FROM nginx:1.25.4-alpine3.18
-FROM nginx:alpine
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+FROM alpine:3.20
+ARG APP_USER=vite
+RUN apk add --no-cache nginx
+COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/dist /var/www/html/
-EXPOSE 3000
-ENTRYPOINT ["nginx","-g","daemon off;"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
