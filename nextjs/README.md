@@ -66,3 +66,11 @@ Replace `your-app-name` with the desired name for your Docker image.
 -   Customize the Dockerfile as needed for your specific deployment requirements.
 
 You're now ready to run your Next.js app using Docker!
+
+---
+
+## References
+
+-   [Distroless alpine image](https://github.com/astefanutti/scratch-node)
+-   https://nextjs.org/docs/pages/api-reference/next-config-js/output
+-   https://medium.com/@techwithtwin/dockerizing-next-js-v14-application-using-output-standalone-and-self-hos-eb636aa9b441
