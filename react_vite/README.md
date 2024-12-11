@@ -12,7 +12,7 @@ Dockerfiles depending on your needs:
 
 ### 1. Add a `.dockerignore` File
 
-Create a [`.dockerignore`](.dockerignore) file in the root of your project.
+Copy the [`.dockerignore`](.dockerignore) file in the root of your project.
 
 ### 2. Add an `nginx.conf` File
 
@@ -39,9 +39,12 @@ docker build -f Dockerfile_alpine -t react-vite:alpine .
 docker build -f Dockerfile_nginx -t react-vite:nginx .
 ```
 
-### 4. Using Docker Slim
+### 4. Using Docker Slim (Optional)
 
 We can use Docker Slim to reduce the size further.
+
+**Note**: docker slim can remove some files that are required for your application to run. So, it is recommended to test
+the application after using Docker Slim.
 
 By running the below command, we are telling Docker Slim to build an image with the target `react-vite` and include the
 paths `/var/www/html`, `/var/log/nginx`, `/var/lib/nginx`, and `/run/nginx`. We are instructing Docker Slim to include
@@ -52,6 +55,14 @@ docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock dslim/slim buil
 ```
 
 After successfully running the above command, you will see a new image with name `react-vite.slim` in your Docker
+
+### 5. Running the Docker Container
+
+After building the image, run the container using the following command:
+
+```bash
+docker run -p 3000:80 react-vite
+```
 
 ## Running the Container
 

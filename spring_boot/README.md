@@ -1,6 +1,7 @@
 # Spring Boot with Docker
 
-This directory provides multiple Dockerfiles for containerizing your Spring Boot application. Choose the appropriate Dockerfile based on your requirements.
+This directory provides multiple Dockerfiles for containerizing your Spring Boot application. Choose the appropriate
+Dockerfile based on your requirements.
 
 ## Files Included
 
@@ -22,37 +23,37 @@ This directory provides multiple Dockerfiles for containerizing your Spring Boot
 
 ### 4. [.dockerignore](./.dockerignore)
 
-Ensure the `.dockerignore` file is present to exclude unnecessary files from the build context:
-
-```
-# .dockerignore file
-.DS_Store
-*.jar
-*.war
-*.log
-.git
-.dockerignore
-README.md
-```
+Copy the [`.dockerignore`](.dockerignore) file in the root of your project.
 
 ## Building the Docker Image
 
-### Using the Regular Dockerfile
+#### Using the Regular Dockerfile
 
 ```bash
 docker build -t spring-boot-app .
 ```
 
-### Using Dockerfile_EclipseTemurin
+#### Using Dockerfile_EclipseTemurin
 
 ```bash
 docker build -f Dockerfile_EclipseTemurin -t spring-boot-app:temurin .
 ```
 
-### Using Dockerfile_Jlink
+#### Using Dockerfile_Jlink
 
 ```bash
 docker build -f Dockerfile_Jlink -t spring-boot-app:jlink .
+```
+
+## Using Docker Slim (Optional)
+
+We can use Docker Slim to reduce the size further.
+
+**Note**: docker slim can remove some files that are required for your application to run. So, it is recommended to test
+the application after using Docker Slim.
+
+```bash
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock dslim/slim build --target spring-boot-app
 ```
 
 ## Running the Docker Container

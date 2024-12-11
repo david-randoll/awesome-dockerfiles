@@ -1,7 +1,8 @@
 # Next.js App with Docker Support
 
-This repository includes a Dockerfile to build and run your Next.js application. This repository aims to provide the smallest possible Docker image for your Next.js application.
-Follow the steps below to configure your project for Docker support.
+This repository includes a Dockerfile to build and run your Next.js application. This repository aims to provide the
+smallest possible Docker image for your Next.js application. Follow the steps below to configure your project for Docker
+support.
 
 ## Setup Instructions
 
@@ -32,22 +33,9 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 ```
 
-### 3. Create a `.dockerignore` File
+### 3. Add a `.dockerignore` File
 
-Create a `.dockerignore` file in the root of your project and add the following:
-
-```
-# .dockerignore file
-.DS_Store
-.next
-node_modules
-.gitignore
-README.md
-.dockerignore
-LICENSE
-.docker
-.gitlab
-```
+Copy the [`.dockerignore`](.dockerignore) file in the root of your project.
 
 ### 4. Build the Docker Image
 
@@ -57,7 +45,26 @@ Run the following command to build the Docker image for your Next.js application
 docker build -t nextjs .
 ```
 
-Replace `your-app-name` with the desired name for your Docker image.
+Replace `nextjs` with the desired name for your Docker image.
+
+### 5 Using Docker Slim (Optional)
+
+We can use Docker Slim to reduce the size further.
+
+**Note**: docker slim can remove some files that are required for your application to run. So, it is recommended to test
+the application after using Docker Slim.
+
+```bash
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock dslim/slim build --target nextjs
+```
+
+### 6. Run the Docker Container
+
+Once the Docker image is built, you can run the container using the following command:
+
+```bash
+docker run -p 3000:3000 nextjs
+```
 
 ## Additional Notes
 
