@@ -7,9 +7,11 @@ COPY . ./
 RUN dotnet publish -c Release -o out -p:AssemblyName=DotNet.Docker
 
 # FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# FROM mcr.microsoft.com/dotnet/runtime:8.0-alpine
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
 WORKDIR /app
 COPY --from=builder /app/out .
 ENV ASPNETCORE_HTTP_PORTS=5001
 EXPOSE 5001
+USER $APP_UID
 ENTRYPOINT ["dotnet", "DotNet.Docker.dll"]
