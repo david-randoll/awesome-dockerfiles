@@ -1,0 +1,10 @@
+# Build folders
+**/[b|B]in/
+**/[O|o]bj/
+
+# git folder
+.git/
+
+# .vs folder
+.vs/
+Dockerfile*

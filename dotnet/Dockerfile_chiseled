@@ -1,0 +1,17 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+WORKDIR /app
+COPY . ./
+RUN dotnet publish \
+	-c Release \
+	-o /app/publish \
+	--self-contained true \
+	--runtime linux-x64 \
+    -p:AssemblyName=dotnet-app
+
+FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-jammy-chiseled
+USER $APP_UID
+WORKDIR /app
+COPY --from=build-env --chown=$APP_UID:$APP_UID /app/publish .
+ENV ASPNETCORE_URLS=http://*:5001
+EXPOSE 5001
+ENTRYPOINT ["./dotnet-app"]
