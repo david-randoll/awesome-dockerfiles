@@ -1,19 +1,16 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS builder
+# FROM mcr.microsoft.com/dotnet/sdk:8.0 AS builder
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS builder
 WORKDIR /app
+COPY *.csproj ./
+RUN dotnet restore
 COPY . ./
-RUN dotnet publish \
-	-c Release \
-	-o /app/publish \
-	--self-contained true \
-	-p:PublishSingleFile=true \
-    # uncomment the following line to enable trimming. you may run into issues with trimming, so be sure to test your app after enabling it.
-    # -p:PublishTrimmed=true \
-    -p:AssemblyName=dotnet-app
+RUN dotnet publish -c Release -o out -p:AssemblyName=dotnet-app
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-alpine
+# FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 USER $APP_UID
 WORKDIR /app
-COPY --from=builder --chown=$APP_UID:$APP_UID /app/publish .
+COPY --from=builder --chown=$APP_UID:$APP_UID /app/out .
 ENV ASPNETCORE_HTTP_PORTS=5001
 EXPOSE 5001
-ENTRYPOINT ["./dotnet-app"]
+ENTRYPOINT ["dotnet", "dotnet-app.dll"]

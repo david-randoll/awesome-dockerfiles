@@ -4,6 +4,24 @@ This repository includes a Dockerfile to build and run your Next.js application.
 smallest possible Docker image for your Next.js application. Follow the steps below to configure your project for Docker
 support.
 
+## Files Included
+
+#### 1. [Dockerfile](Dockerfile)
+
+-   This uses alpine as the base image and installs nodejs and uses npm.
+
+#### 2. [Dockerfile_yarn](Dockerfile_yarn)
+
+-   Same as the Dockerfile but uses yarn instead of npm.
+
+#### 3. [Dockerfile_node_alpine](Dockerfile_node_alpine)
+
+-   This uses node:alpine as the base image.
+
+Heres a comparison of the image sizes. The `.slim` images are built using Docker Slim.
+
+![alt text](image.png)
+
 ## Setup Instructions
 
 ### 1. Add a Standalone Script to `package.json`
@@ -39,10 +57,22 @@ Copy the [.dockerignore](.dockerignore) file in the root of your project.
 
 ### 4. Build the Docker Image
 
-Run the following command to build the Docker image for your Next.js application:
+#### Using the Regular Dockerfile
 
 ```bash
 docker build -t nextjs .
+```
+
+#### Using the Dockerfile_node_alpine
+
+```bash
+docker build -f Dockerfile_node_alpine -t nextjs .
+```
+
+#### Using the Dockerfile_yarn
+
+```bash
+docker build -f Dockerfile_yarn -t nextjs .
 ```
 
 Replace `nextjs` with the desired name for your Docker image.

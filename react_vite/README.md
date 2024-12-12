@@ -1,12 +1,24 @@
 # React Vite with Docker
 
 This directory provides Dockerfiles for deploying a React Vite application. You can choose between three different
-Dockerfiles depending on your needs:
 
-1. [**Dockerfile**](Dockerfile): General-purpose Dockerfile. Should provide the smallest image size.
-2. [**Dockerfile_alpine**](Dockerfile_alpine): This is the same as the [Dockerfile](Dockerfile) without the user
-   creation.
-3. [**Dockerfile_nginx**](Dockerfile_nginx): Uses `nginx:alpine` for serving the React Vite app.
+## FIles Included
+
+#### 1. [Dockerfile](Dockerfile)
+
+-   General-purpose Dockerfile. Should provide the smallest image size.
+
+#### 2. [Dockerfile_alpine](Dockerfile_alpine)
+
+-   This is the same as the [Dockerfile](Dockerfile) without the user creation.
+
+#### 3. [Dockerfile_nginx](Dockerfile_nginx)
+
+-   Uses `nginx:alpine` as the base image.
+
+Heres a comparison of the image sizes. The `.slim` images are built using Docker Slim.
+
+![alt text](image.png)
 
 ## Setup Instructions
 
@@ -30,13 +42,13 @@ docker build -t react-vite .
 #### Using the Alpine Dockerfile
 
 ```bash
-docker build -f Dockerfile_alpine -t react-vite:alpine .
+docker build -f Dockerfile_alpine -t react-vite .
 ```
 
 #### Using the NGINX Dockerfile
 
 ```bash
-docker build -f Dockerfile_nginx -t react-vite:nginx .
+docker build -f Dockerfile_nginx -t react-vite .
 ```
 
 ### 4. Using Docker Slim (Optional)

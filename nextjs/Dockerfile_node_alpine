@@ -1,16 +1,18 @@
-FROM node:18-alpine AS builder
+FROM node:23-alpine3.20 AS builder
 WORKDIR /app
+RUN apk add --no-cache libc6-compat
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY package*.json ./
-RUN yarn --network-timeout 100000
+RUN npm ci
 COPY . .
-RUN yarn standalone
+RUN npm run standalone
 
-FROM astefanutti/scratch-node
+FROM node:23-alpine3.20
+USER node
+WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 COPY --from=builder --chown=node:node /app/.next/standalone .
-USER node
 EXPOSE 3000
 ENV PORT=3000
-ENTRYPOINT [ "node", "server.js" ]
+CMD [ "node", "server.js" ]

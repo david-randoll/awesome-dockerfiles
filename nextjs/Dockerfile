@@ -1,4 +1,4 @@
-FROM node:23-alpine AS builder
+FROM node:23-alpine3.20 AS builder
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -8,16 +8,17 @@ COPY . .
 RUN npm run standalone
 
 FROM alpine:3.20
+ARG app_user=nextjs
 RUN apk add --no-cache nodejs && \
-    addgroup --system --gid 1001 node && \
-    adduser --system --uid 1001 node && \
-    mkdir -p /nextjs-app && \
-    chown -R node:node /nextjs-app
-WORKDIR /nextjs-app
+    addgroup --system --gid 1001 "$app_user" && \
+    adduser --system --uid 1001 "$app_user" && \
+    mkdir -p /app && \
+    chown -R "$app_user":"$app_user" /app
+USER $app_user
+WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-COPY --from=builder --chown=node:node /app/.next/standalone .
-USER node
+COPY --from=builder --chown="$app_user":"$app_user" /app/.next/standalone .
 EXPOSE 3000
 ENV PORT=3000
 CMD [ "node", "server.js" ]

@@ -1,0 +1,14 @@
+FROM node:23-alpine3.20 AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --production
+COPY . .
+RUN npx @vercel/ncc build app.js -o dist
+
+FROM node:23-alpine3.20
+USER node
+WORKDIR /app
+COPY --from=builder --chown=node:node /app/dist/index.js .
+EXPOSE 3000
+ENV PORT=3000
+CMD ["node", "index.js"]

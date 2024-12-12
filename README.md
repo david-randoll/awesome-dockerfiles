@@ -11,6 +11,7 @@ This repository currently includes Dockerfiles for the following platforms:
 -   [**React Vite**](react_vite)
 -   [**Node.js**](nodejs)
 -   [**Spring Boot**](spring_boot)
+-   [**Dotnet Core**](dotnet)
 
 More platforms will be added over time as the repository evolves (PR Welcome).
 
@@ -21,10 +22,11 @@ Here are some stats for the current platforms:
 
 | Platform    | Original Size | Optimized Size |
 | ----------- | ------------- | -------------- |
-| Next.js     | 1GB           | 86MB           |
+| Next.js     | 1GB           | 67MB           |
 | React Vite  | 1.4GB         | 7MB            |
-| Node.js     | 940MB         | 64MB           |
-| Spring Boot | 459MB         | 90MB           |
+| Node.js     | 940MB         | 62MB           |
+| Spring Boot | 459MB         | 77MB           |
+| Dotnet Core | 219MB         | 53MB           |
 
 ## How to Use
 

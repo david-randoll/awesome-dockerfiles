@@ -5,42 +5,56 @@ Dockerfile based on your needs.
 
 ## Files Included
 
-### 1. [Dockerfile](./Dockerfile)
+#### 1. [Dockerfile](./Dockerfile)
 
--   Produces the smallest possible image for your .NET application.
+-   Produces the recommend image using `mcr.microsoft.com/dotnet/aspnet:8.0-alpine` as the base image.
 
-### 2. [Dockerfile_chiseled](./Dockerfile_chiseled)
+#### 2. [Dockerfile_chiseled](./Dockerfile_chiseled)
 
 -   Uses the `mcr.microsoft.com/dotnet/runtime-deps:8.0-jammy-chiseled` base image.
 -   Ideal for highly secure and minimal environments.
 
-### 3. [Dockerfile_mcr](./Dockerfile_mcr)
+#### 3. [Dockerfile_self_contained](./Dockerfile_self_contained)
 
--   Based on `mcr.microsoft.com/dotnet/aspnet:8.0-alpine`.
--   Balances image size and compatibility.
+-   Based on `mcr.microsoft.com/dotnet/runtime-deps:8.0-alpine`.
 
-### 4. Add a `.dockerignore` File
+Heres a comparison of the image sizes. The `.slim` images are built using Docker Slim.
+
+![alt text](image.png)
+
+## Add a .dockerignore File
 
 Copy the [.dockerignore](.dockerignore) file in the root of your project.
 
 ## Building the Docker Image
 
-### Using the Regular Dockerfile
+#### Using the Regular Dockerfile
 
 ```bash
 docker build -t dotnet-app .
 ```
 
-### Using Dockerfile_chiseled
+#### Using Dockerfile_chiseled
 
 ```bash
 docker build -f Dockerfile_chiseled -t dotnet-app .
 ```
 
-### Using Dockerfile_mcr
+#### Using Dockerfile_self_contained
 
 ```bash
-docker build -f Dockerfile_mcr -t dotnet-app .
+docker build -f Dockerfile_self_contained -t dotnet-app .
+```
+
+## Using Docker Slim (Optional)
+
+We can use Docker Slim to reduce the size further.
+
+**Note**: docker slim can remove some files that are required for your application to run. So, it is recommended to test
+the application after using Docker Slim.
+
+```bash
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock dslim/slim build --target dotnet-app
 ```
 
 ## Running the Docker Container

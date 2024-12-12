@@ -5,27 +5,38 @@ Dockerfile based on your requirements.
 
 ## Files Included
 
-### 1. [Dockerfile](./Dockerfile)
+#### 1. [Dockerfile](./Dockerfile)
 
 -   Builds a lightweight Docker image for your Spring Boot application.
 -   Utilizes `jdeps` to analyze dependencies and include only the required modules in the JRE.
 
-### 2. [Dockerfile_EclipseTemurin](./Dockerfile_EclipseTemurin)
+#### 2. [Dockerfile_EclipseTemurin](./Dockerfile_EclipseTemurin)
 
 -   Uses the `eclipse-temurin` base image to build and run your Spring Boot application.
 -   Ideal for environments requiring the Eclipse Temurin JDK.
 
-### 3. [Dockerfile_Jlink](./Dockerfile_Jlink)
+#### 3. [Dockerfile_Jlink](./Dockerfile_Jlink)
 
 -   Builds a custom JRE using `jlink` with the `--add-modules=ALL-MODULE-PATH` flag.
 -   Includes all Java modules in the JRE.
 -   Suitable for scenarios needing a full-featured JRE.
 
-### 4. [.dockerignore](./.dockerignore)
+Heres a comparison of the image sizes. The `.slim` images are built using Docker Slim. 
+
+![alt text](image.png)
+
+## Setup Instructions
+
+### 1. Add a [.dockerignore](./.dockerignore) File
 
 Copy the [`.dockerignore`](.dockerignore) file in the root of your project.
 
-## Building the Docker Image
+### 2. Dockerfile
+
+Create a [Dockerfile](Dockerfile) in the root of your project. This file contains the necessary commands to build the
+Docker image.
+
+### 3. Building the Docker Image
 
 #### Using the Regular Dockerfile
 
@@ -45,7 +56,7 @@ docker build -f Dockerfile_EclipseTemurin -t spring-boot-app:temurin .
 docker build -f Dockerfile_Jlink -t spring-boot-app:jlink .
 ```
 
-## Using Docker Slim (Optional)
+### 4. Using Docker Slim (Optional)
 
 We can use Docker Slim to reduce the size further.
 

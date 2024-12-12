@@ -3,6 +3,20 @@
 This directory provides a Dockerfile to containerize your Node.js application for development and production use. This
 example uses an express server, but you can modify it to fit your needs.
 
+## Files Included
+
+#### 1. [Dockerfile](Dockerfile)
+
+-   This file uses alpine as the base image and installs nodejs manually.
+
+#### 2. [Dockerfile_node_alpine](Dockerfile_node_alpine)
+
+-   This version uses node:alpine as the base image.
+
+Heres a comparison of the image sizes. The `.slim` images are built using Docker Slim.
+
+![alt text](image.png)
+
 ## Setup Instructions
 
 ### 1. Add a `.dockerignore` File
@@ -16,10 +30,16 @@ Docker image.
 
 ### 3. Build the Docker Image
 
-Run the following command to build the Docker image:
+#### Using the Generic Dockerfile
 
 ```bash
 docker build -t nodejs .
+```
+
+#### Using the Dockerfile_node_alpine
+
+```bash
+docker build -f Dockerfile_node_alpine -t nodejs .
 ```
 
 ### 4. Using Docker Slim (Optional)
