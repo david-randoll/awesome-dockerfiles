@@ -1,6 +1,7 @@
 # .NET with Docker
 
-This directory contains Dockerfiles for building and deploying .NET applications. You can choose the appropriate Dockerfile based on your needs.
+This directory contains Dockerfiles for building and deploying .NET applications. You can choose the appropriate
+Dockerfile based on your needs.
 
 ## Files Included
 
@@ -33,13 +34,13 @@ docker build -t dotnet-app .
 ### Using Dockerfile_chiseled
 
 ```bash
-docker build -f Dockerfile_chiseled -t dotnet-app:chiseled .
+docker build -f Dockerfile_chiseled -t dotnet-app .
 ```
 
 ### Using Dockerfile_mcr
 
 ```bash
-docker build -f Dockerfile_mcr -t dotnet-app:mcr .
+docker build -f Dockerfile_mcr -t dotnet-app .
 ```
 
 ## Running the Docker Container
@@ -54,7 +55,8 @@ Replace `dotnet-app` with the appropriate tag if using `chiseled` or `mcr` versi
 
 ## Contributing
 
-If you have ideas for improving or adding new Docker configurations for .NET, feel free to contribute by opening a pull request.
+If you have ideas for improving or adding new Docker configurations for .NET, feel free to contribute by opening a pull
+request.
 
 ---
 
