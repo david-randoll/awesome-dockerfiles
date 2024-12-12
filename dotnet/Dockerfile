@@ -5,7 +5,7 @@ RUN dotnet publish \
 	-c Release \
 	-o /app/publish \
 	--self-contained true \
-	--runtime linux-musl-x64 \
+	--runtime linux-x64 \
 	-p:PublishSingleFile=true \
     # uncomment the following line to enable trimming. you may run into issues with trimming, so be sure to test your app after enabling it.
     # -p:PublishTrimmed=true \ 

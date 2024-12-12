@@ -35,7 +35,7 @@ export default nextConfig;
 
 ### 3. Add a `.dockerignore` File
 
-Copy the [`.dockerignore`](.dockerignore) file in the root of your project.
+Copy the [.dockerignore](.dockerignore) file in the root of your project.
 
 ### 4. Build the Docker Image
 
