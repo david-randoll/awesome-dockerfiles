@@ -6,9 +6,8 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# https://github.com/lipanski/docker-static-website/tree/master
-FROM lipanski/docker-static-website:latest
+FROM busybox:1.37
 WORKDIR /var/www/html
 COPY --from=builder /app/dist ./
 EXPOSE 3000
-CMD ["/busybox-httpd", "-f", "-v", "-p", "3000"]
+CMD ["busybox", "httpd", "-f", "-v", "-p", "3000"]
