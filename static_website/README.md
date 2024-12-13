@@ -29,6 +29,8 @@ Heres a comparison of the image sizes. The `.slim` images are built using Docker
 
 Yup, you saw that right, the `Dockerfile` is Kilobytes in size!
 
+![alt text](image.png)
+
 ## Setup Instructions
 
 ### 1. Add a `.dockerignore` File
@@ -80,7 +82,7 @@ We can use Docker Slim to reduce the size further.
 **Note**: docker slim can remove some files that are required for your application to run. So, it is recommended to test
 the application after using Docker Slim.
 
-For the `Dockerfile_alpine_nonroot` file, run the following command:
+For the docker files that uses nginx, run the following command:
 
 ```bash
 docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock dslim/slim build --target static_website --include-path /var/www/html --include-path /var/log/nginx --include-path /var/lib/nginx --include-path /run/nginx
