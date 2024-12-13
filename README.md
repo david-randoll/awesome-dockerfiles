@@ -3,18 +3,6 @@
 Welcome to the Dockerfiles repository! This repo is dedicated to housing optimized Dockerfiles for various platforms,
 making it easier to create lightweight and efficient Docker images for your projects.
 
-## Current Platforms
-
-This repository currently includes Dockerfiles for the following platforms:
-
--   [**Next.js**](nextjs)
--   [**React Vite**](react_vite)
--   [**Node.js**](nodejs)
--   [**Spring Boot**](spring_boot)
--   [**Dotnet Core**](dotnet)
-
-More platforms will be added over time as the repository evolves (PR Welcome).
-
 ## Why Use These Dockerfiles?
 
 The Dockerfiles in this repository are optimized to significantly reduce image sizes while maintaining functionality.
@@ -28,10 +16,21 @@ Here are some stats for the current platforms:
 | Spring Boot | 459MB         | 77MB               |
 | Dotnet Core | 219MB         | 53MB               |
 
+## Current Platforms
+
+This repository currently includes Dockerfiles for the following platforms:
+
+-   [**Next.js**](nextjs)
+-   [**React Vite**](react_vite)
+-   [**Node.js**](nodejs)
+-   [**Spring Boot**](spring_boot)
+-   [**Dotnet Core**](dotnet)
+
+More platforms will be added over time as the repository evolves (PR Welcome).
+
 ## How to Use
 
-1. Navigate to the folder for your desired platform (e.g., [nextjs](nextjs), [nodejs](nodejs), or
-   [spring boot](spring_boot)).
+1. Navigate to the folder for your [desired platform](#current-platforms).
 
 2. Follow the instructions in the README file for that specific platform to build and run your Docker image.
 
