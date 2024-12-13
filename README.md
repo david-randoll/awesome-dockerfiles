@@ -10,7 +10,7 @@ Here are some stats for the current platforms:
 
 | Platform       | Original Size | Optimized Size     |
 | -------------- | ------------- | ------------------ |
-| Static Website |               |                    |
+| Static Website | 74MB          | 84KB (Kilobytes!)  |
 | Next.js        | 1GB           | 67MB               |
 | React Vite     | 1.4GB         | 232KB (Kilobytes!) |
 | Node.js        | 940MB         | 62MB               |
