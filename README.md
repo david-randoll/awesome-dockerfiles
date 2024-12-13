@@ -45,7 +45,3 @@ size.
 
 This repository is licensed under the [MIT License](LICENSE). Feel free to use and modify the Dockerfiles for your own
 projects.
-
----
-
-Let's build lean and fast Docker images together!
