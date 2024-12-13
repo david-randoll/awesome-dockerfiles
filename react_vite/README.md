@@ -123,6 +123,7 @@ Enjoy deploying your React Vite application with Docker!
 ## References
 
 -   https://lipanski.com/posts/smallest-docker-image-static-website
+-   https://github.com/lipanski/docker-static-website/tree/master
 -   https://www.geeksforgeeks.org/how-to-run-nginx-for-root-non-root/
 -   https://medium.com/@pierre.fourny/optimized-docker-setup-for-vite-powered-react-apps-e7b7f5a82bb4
 -   https://youtu.be/t779DVjCKCs?si=xSdHkSH6YaZ7h54i
