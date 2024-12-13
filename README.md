@@ -21,6 +21,7 @@ Here are some stats for the current platforms:
 
 This repository currently includes Dockerfiles for the following platforms:
 
+-   [**Static Website**](static_website)
 -   [**Next.js**](nextjs)
 -   [**React Vite**](react_vite)
 -   [**Node.js**](nodejs)
