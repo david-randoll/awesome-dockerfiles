@@ -1,0 +1,9 @@
+# .dockerignore file
+.git
+.gitignore
+README.md
+.dockerignore
+LICENSE
+.docker
+.gitlab
+Dockerfile*
