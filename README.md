@@ -8,13 +8,14 @@ making it easier to create lightweight and efficient Docker images for your proj
 The Dockerfiles in this repository are optimized to significantly reduce image sizes while maintaining functionality.
 Here are some stats for the current platforms:
 
-| Platform    | Original Size | Optimized Size     |
-| ----------- | ------------- | ------------------ |
-| Next.js     | 1GB           | 67MB               |
-| React Vite  | 1.4GB         | 232KB (Kilobytes!) |
-| Node.js     | 940MB         | 62MB               |
-| Spring Boot | 459MB         | 77MB               |
-| Dotnet Core | 219MB         | 53MB               |
+| Platform       | Original Size | Optimized Size     |
+| -------------- | ------------- | ------------------ |
+| Static Website |               |                    |
+| Next.js        | 1GB           | 67MB               |
+| React Vite     | 1.4GB         | 232KB (Kilobytes!) |
+| Node.js        | 940MB         | 62MB               |
+| Spring Boot    | 459MB         | 77MB               |
+| Dotnet Core    | 219MB         | 53MB               |
 
 ## Current Platforms
 

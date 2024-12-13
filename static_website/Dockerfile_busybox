@@ -1,13 +1,5 @@
-# Build stage
-FROM node:23-alpine3.20 AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-
 FROM busybox:1.37
 WORKDIR /var/www/html
-COPY --from=builder /app/dist ./
+COPY src .
 EXPOSE 3000
 CMD ["busybox", "httpd", "-f", "-v", "-p", "3000"]

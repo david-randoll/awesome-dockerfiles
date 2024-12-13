@@ -1,6 +1,6 @@
-# React Vite with Docker
+# Static Files with Docker
 
-This directory provides Dockerfiles for deploying a React Vite application. You can choose between three different
+This directory provides Dockerfiles for deploying an application to serve static files. It doesn't only work for static website but also for any static files that you want to serve.
 
 ## FIles Included
 
@@ -29,8 +29,6 @@ Heres a comparison of the image sizes. The `.slim` images are built using Docker
 
 Yup, you saw that right, the `Dockerfile` is Kilobytes in size!
 
-![alt text](image.png)
-
 ## Setup Instructions
 
 ### 1. Add a `.dockerignore` File
@@ -41,38 +39,38 @@ Copy the [`.dockerignore`](.dockerignore) file in the root of your project.
 
 Create an [`nginx.conf`](nginx.conf) file in the root of your project.
 
-**Note**: Only use this file if you are using one of the NGINX Dockerfiles.
+**Note: Only use this file if you are using one of the NGINX Dockerfiles.**
 
 ### 3. Build the Docker Image
 
 #### Using the General Dockerfile
 
 ```bash
-docker build -t react-vite .
+docker build -t static_website .
 ```
 
 #### Using the Alpine Dockerfile
 
 ```bash
-docker build -f Dockerfile_alpine -t react-vite .
+docker build -f Dockerfile_alpine -t static_website .
 ```
 
 #### Using the Alpine Non-Root Dockerfile
 
 ```bash
-docker build -f Dockerfile_alpine_nonroot -t react-vite .
+docker build -f Dockerfile_alpine_nonroot -t static_website .
 ```
 
 #### Using the Busybox Dockerfile
 
 ```bash
-docker build -f Dockerfile_busybox -t react-vite .
+docker build -f Dockerfile_busybox -t static_website .
 ```
 
 #### Using the NGINX Dockerfile
 
 ```bash
-docker build -f Dockerfile_nginx -t react-vite .
+docker build -f Dockerfile_nginx -t static_website .
 ```
 
 ### 4. Using Docker Slim (Optional)
@@ -85,35 +83,32 @@ the application after using Docker Slim.
 For the `Dockerfile_alpine_nonroot` file, run the following command:
 
 ```bash
-docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock dslim/slim build --target react-vite --include-path /var/www/html --include-path /var/log/nginx --include-path /var/lib/nginx --include-path /run/nginx
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock dslim/slim build --target static_website --include-path /var/www/html --include-path /var/log/nginx --include-path /var/lib/nginx --include-path /run/nginx
 ```
 
 For others (non busybox), run the following command:
 
 ```bash
-docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock dslim/slim build --target react-vite --include-path /var/www/html
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock dslim/slim build --target static_website --include-path /var/www/html
 ```
 
-After successfully running the above command, you will see a new image with name `react-vite.slim` in your Docker
+After successfully running the above command, you will see a new image with name `static_website.slim` in your Docker
 
 ## Running the Container
 
 After building the image, run the container using the following command:
 
 ```bash
-docker run -p 3000:80 react-vite
+docker run -p 3000:80 static_website
 ```
 
 ## Contributing
 
-If you have improvements or additional configurations for the React Vite setup, feel free to open a pull request!
+If you have improvements or additional configurations for the static files setup, feel free to open a pull request!
 
 ---
 
 ## References
 
--   https://lipanski.com/posts/smallest-docker-image-static-website
--   https://github.com/lipanski/docker-static-website/tree/master
--   https://www.geeksforgeeks.org/how-to-run-nginx-for-root-non-root/
--   https://medium.com/@pierre.fourny/optimized-docker-setup-for-vite-powered-react-apps-e7b7f5a82bb4
--   https://youtu.be/t779DVjCKCs?si=xSdHkSH6YaZ7h54i
+-   https://lipanski.com/posts/smallest-docker-image-static_website
+-   https://github.com/lipanski/docker-static_website/tree/master
