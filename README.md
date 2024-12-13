@@ -1,7 +1,6 @@
 # Dockerfiles Repository
 
-Welcome to the Dockerfiles repository! This repo is dedicated to housing optimized Dockerfiles for various platforms,
-making it easier to create lightweight and efficient Docker images for your projects.
+Production ready Dockerfiles for various platforms, optimized for optimal image size and performance. 
 
 ## Why Use These Dockerfiles?
 
