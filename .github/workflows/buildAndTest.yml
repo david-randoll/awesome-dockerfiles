@@ -42,9 +42,7 @@ jobs:
             - name: Build Docker Image
               run: |
                   IMAGE_NAME=${{ matrix.image_name }}
-                  FOLDER_NAME=${{ matrix.folder }}
-                  FILE_NAME=${{ matrix.dockerfile }}
-                  docker build -t $IMAGE_NAME -f dotnet_core/Dockerfile $FOLDER_NAME
+                  docker build -t $IMAGE_NAME -f dotnet_core/${{ matrix.dockerfile }} .
 
             - name: Run Docker Container
               run: |
