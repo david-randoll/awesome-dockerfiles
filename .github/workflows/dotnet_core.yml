@@ -32,9 +32,6 @@ jobs:
                       docker_port: 5001
 
         steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-
             - name: Build and Test Docker Images
               uses: ./.github/workflows/buildAndTest.yml
               with:
