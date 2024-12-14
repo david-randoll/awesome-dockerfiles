@@ -41,25 +41,27 @@ jobs:
 
             - name: Build Docker Image
               run: |
-                  IMAGE_NAME=${{ matrix.image_name }}
-                   docker build -t dotnet-core dotnet_core
+                  IMAGE_NAME=${{ inputs.image_name }}
+                  FOLDER_NAME=${{ inputs.folder }}
+                  FILE_NAME=${{ inputs.dockerfile }}
+                  docker build -t $IMAGE_NAME -f $FOLDER_NAME/$FILE_NAME $FOLDER_NAME
 
             - name: Run Docker Container
               run: |
-                  IMAGE_NAME=${{ matrix.image_name }}
-                  SERVICE_PORT=${{ matrix.service_port }}
-                  DOCKER_PORT=${{ matrix.docker_port }}
+                  IMAGE_NAME=${{ inputs.image_name }}
+                  SERVICE_PORT=${{ inputs.service_port }}
+                  DOCKER_PORT=${{ inputs.docker_port }}
                   docker run -d --name $IMAGE_NAME-container -p $SERVICE_PORT:$DOCKER_PORT $IMAGE_NAME
 
             - name: Wait for Service to Start
               run: |
                   for i in {1..10}; do
-                    curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ matrix.service_port }} && break || sleep 5;
+                    curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ inputs.service_port }} && break || sleep 5;
                   done
 
             - name: Test Service Response
               run: |
-                  response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ matrix.service_port }})
+                  response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ inputs.service_port }})
                   if [ "$response" != "200" ]; then
                     echo "Expected HTTP 200 but got $response";
                     exit 1;
@@ -67,6 +69,6 @@ jobs:
 
             - name: Stop and Remove Container
               run: |
-                  IMAGE_NAME=${{ matrix.image_name }}
+                  IMAGE_NAME=${{ inputs.image_name }}
                   docker stop $IMAGE_NAME-container
                   docker rm $IMAGE_NAME-container
