@@ -42,7 +42,9 @@ jobs:
             - name: Build Docker Image
               run: |
                   IMAGE_NAME=${{ matrix.image_name }}
-                  docker build -t $IMAGE_NAME -f ${{ matrix.folder }}//${{ matrix.dockerfile }} ${{ matrix.folder }}
+                  FOLDER_NAME=${{ matrix.folder }}
+                  FILE_NAME=${{ matrix.dockerfile }}
+                  docker build -t $IMAGE_NAME -f $FOLDER_NAME/$FILE_NAME $FOLDER_NAME
 
             - name: Run Docker Container
               run: |
