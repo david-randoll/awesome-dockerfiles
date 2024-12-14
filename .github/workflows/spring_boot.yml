@@ -22,13 +22,13 @@ jobs:
 
                     - dockerfile: "Dockerfile_EclipseTemurin"
                       folder: "spring_boot"
-                      image_name: "spring_boot_EclipseTemurin_image"
+                      image_name: "spring_boot_eclipse_temurin_image"
                       service_port: 8041
                       docker_port: 8080
 
                     - dockerfile: "Dockerfile_Jlink"
                       folder: "spring_boot"
-                      image_name: "spring_boot_Jlink_image"
+                      image_name: "spring_boot_jlink_image"
                       service_port: 8042
                       docker_port: 8080
 
