@@ -1,0 +1,51 @@
+name: Build and Test Docker Images
+
+on:
+    workflow_call:
+        inputs:
+            matrix:
+                description: "Matrix configuration for Docker images"
+                required: true
+                type: string
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix: ${{ fromJson(inputs.matrix) }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Build Docker Image
+              run: |
+                  IMAGE_NAME=${{ matrix.image_name }}
+                  FILE_PATH=${{ matrix.folder }}/${{ matrix.dockerfile }}
+                  docker build -t $IMAGE_NAME -f $FILE_PATH ${{ matrix.folder }}
+
+            - name: Run Docker Container
+              run: |
+                  IMAGE_NAME=${{ matrix.image_name }}
+                  SERVICE_PORT=${{ matrix.service_port }}
+                  DOCKER_PORT=${{ matrix.docker_port }}
+                  docker run -d --name $IMAGE_NAME-container -p $SERVICE_PORT:$DOCKER_PORT $IMAGE_NAME
+
+            - name: Wait for Service to Start
+              run: |
+                  for i in {1..10}; do
+                    curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ matrix.service_port }} && break || sleep 5;
+                  done
+
+            - name: Test Service Response
+              run: |
+                  response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ matrix.service_port }})
+                  if [ "$response" != "200" ]; then
+                    echo "Expected HTTP 200 but got $response";
+                    exit 1;
+                  fi
+
+            - name: Stop and Remove Container
+              run: |
+                  IMAGE_NAME=${{ matrix.image_name }}
+                  docker stop $IMAGE_NAME-container
+                  docker rm $IMAGE_NAME-container

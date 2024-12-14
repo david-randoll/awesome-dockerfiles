@@ -1,4 +1,4 @@
-name: Build and Test Dotnet Core Images
+name: Build and Test Docker Images for Dotnet Core
 
 on:
     workflow_dispatch:
@@ -10,61 +10,30 @@ on:
             - main
 
 jobs:
-    build-and-test:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                include:
-                    - dockerfile: Dockerfile
-                      folder: dotnet_core
-                      image_name: dotnet_core_image
-                      service_port: 8080
-                      docker_port: 5001
-
-                    - dockerfile: Dockerfile_chiseled
-                      folder: dotnet_core
-                      image_name: dotnet_core_chiseled_image
-                      service_port: 8081
-                      docker_port: 5001
-
-                    - dockerfile: Dockerfile_self_contained
-                      folder: dotnet_core
-                      image_name: dotnet_core_self_contained_image
-                      service_port: 8082
-                      docker_port: 5001
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-
-            - name: Build Docker Image
-              run: |
-                  IMAGE_NAME=${{ matrix.image_name }}
-                  FILE_PATH=${{ matrix.folder }}/${{ matrix.dockerfile }}
-                  docker build -t $IMAGE_NAME -f $FILE_PATH ${{ matrix.folder }}
-
-            - name: Run Docker Container
-              run: |
-                  IMAGE_NAME=${{ matrix.image_name }}
-                  SERVICE_PORT=${{ matrix.service_port }}
-                  DOCKER_PORT=${{ matrix.docker_port }}
-                  docker run -d --name $IMAGE_NAME-container -p $SERVICE_PORT:$DOCKER_PORT $IMAGE_NAME
-
-            - name: Wait for Service to Start
-              run: |
-                  for i in {1..10}; do
-                    curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ matrix.service_port }} && break || sleep 5;
-                  done
-
-            - name: Test Service Response
-              run: |
-                  response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ matrix.service_port }})
-                  if [ "$response" != "200" ]; then
-                    echo "Expected HTTP 200 but got $response";
-                    exit 1;
-                  fi
-
-            - name: Stop and Remove Container
-              run: |
-                  IMAGE_NAME=${{ matrix.image_name }}
-                  docker stop $IMAGE_NAME-container
-                  docker rm $IMAGE_NAME-container
+    build:
+        uses: ./.github/workflows/build-and-test.yml
+        with:
+            matrix: |
+                [
+                  {
+                    "dockerfile": "Dockerfile",
+                    "folder": "dotnet_core",
+                    "image_name": "dotnet_core_image",
+                    "service_port": 8080,
+                    "docker_port": 5001
+                  },
+                  {
+                    "dockerfile": "Dockerfile_chiseled",
+                    "folder": "dotnet_core",
+                    "image_name": "dotnet_core_chiseled_image",
+                    "service_port": 8081,
+                    "docker_port": 5001
+                  },
+                  {
+                    "dockerfile": "Dockerfile_self_contained",
+                    "folder": "dotnet_core",
+                    "image_name": "dotnet_core_self_contained_image",
+                    "service_port": 8082,
+                    "docker_port": 5001
+                  }
+                ]
