@@ -1,4 +1,4 @@
-name: Build and Test Dotnet Core Image
+name: Build and Test Dotnet Core Images
 
 on:
     workflow_dispatch:
@@ -10,29 +10,38 @@ on:
             - main
 
 jobs:
-    builds:
+    build-and-test:
         runs-on: ubuntu-latest
-
+        strategy:
+            matrix:
+                dockerfile:
+                    - dotnet_core/Dockerfile
+                    - dotnet_core/Dockerfile_chiseled
+                    - dotnet_core/Dockerfile_self_contained
+                service_port: [8080]
         steps:
             - name: Checkout
               uses: actions/checkout@v4
 
             - name: Build Docker Image
-              run: docker build -t dotnet-core dotnet_core
+              run: |
+                  IMAGE_NAME=$(basename ${{ matrix.dockerfile }})
+                  docker build -t $IMAGE_NAME -f ${{ matrix.dockerfile }} .
 
             - name: Run Docker Container
               run: |
-                  docker run -d --name dotnet-core-container -p 8080:5001 dotnet-core
+                  IMAGE_NAME=$(basename ${{ matrix.dockerfile }})
+                  docker run -d --name $IMAGE_NAME-container -p ${{ matrix.service_port }}:5001 $IMAGE_NAME
 
             - name: Wait for Service to Start
               run: |
                   for i in {1..10}; do
-                    curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 && break || sleep 5;
+                    curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ matrix.service_port }} && break || sleep 5;
                   done
 
             - name: Test Service Response
               run: |
-                  response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+                  response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${{ matrix.service_port }})
                   if [ "$response" != "200" ]; then
                     echo "Expected HTTP 200 but got $response";
                     exit 1;
@@ -40,5 +49,6 @@ jobs:
 
             - name: Stop and Remove Container
               run: |
-                  docker stop dotnet-core-container
-                  docker rm dotnet-core-container
+                  IMAGE_NAME=$(basename ${{ matrix.dockerfile }})
+                  docker stop $IMAGE_NAME-container
+                  docker rm $IMAGE_NAME-container
