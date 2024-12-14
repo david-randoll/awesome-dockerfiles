@@ -1,13 +1,13 @@
-name: Build Dotnet Core Image
+name: Build and Test Dotnet Core Image
 
 on:
     workflow_dispatch:
     push:
         branches:
-            - master
+            - main
     pull_request:
         branches:
-            - master
+            - main
 
 jobs:
     builds:
@@ -16,5 +16,29 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4
+
             - name: Build Docker Image
               run: docker build -t dotnet-core dotnet_core
+
+            - name: Run Docker Container
+              run: |
+                  docker run -d --name dotnet-core-container -p 8080:5001 dotnet-core
+
+            - name: Wait for Service to Start
+              run: |
+                  for i in {1..10}; do
+                    curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 && break || sleep 5;
+                  done
+
+            - name: Test Service Response
+              run: |
+                  response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+                  if [ "$response" != "200" ]; then
+                    echo "Expected HTTP 200 but got $response";
+                    exit 1;
+                  fi
+
+            - name: Stop and Remove Container
+              run: |
+                  docker stop dotnet-core-container
+                  docker rm dotnet-core-container
