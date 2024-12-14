@@ -1,4 +1,4 @@
-name: Build/Test Nodejs
+name: Build/Test React Vite
 
 on:
     workflow_dispatch:

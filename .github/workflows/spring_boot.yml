@@ -1,4 +1,4 @@
-name: Build/Test Nodejs
+name: Build/Test Spring Boot
 
 on:
     workflow_dispatch:

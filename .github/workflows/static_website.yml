@@ -1,4 +1,4 @@
-name: Build/Test Nodejs
+name: Build/Test Static Website
 
 on:
     workflow_dispatch:
