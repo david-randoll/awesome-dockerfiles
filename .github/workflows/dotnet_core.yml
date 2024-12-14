@@ -17,17 +17,17 @@ jobs:
                     - dockerfile: "Dockerfile"
                       folder: "dotnet_core"
                       image_name: "dotnet_core_image"
-                      service_port: 8080
+                      service_port: 8000
                       docker_port: 5001
                     - dockerfile: "Dockerfile_chiseled"
                       folder: "dotnet_core"
                       image_name: "dotnet_core_chiseled_image"
-                      service_port: 8081
+                      service_port: 8001
                       docker_port: 5001
                     - dockerfile: "Dockerfile_self_contained"
                       folder: "dotnet_core"
                       image_name: "dotnet_core_self_contained_image"
-                      service_port: 8082
+                      service_port: 8002
                       docker_port: 5001
 
         name: Build and Test Docker Images

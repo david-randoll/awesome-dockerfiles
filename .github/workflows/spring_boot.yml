@@ -1,0 +1,42 @@
+name: Build/Test Nodejs
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        strategy:
+            matrix:
+                include:
+                    - dockerfile: "Dockerfile"
+                      folder: "spring_boot"
+                      image_name: "spring_boot_image"
+                      service_port: 8040
+                      docker_port: 8080
+
+                    - dockerfile: "Dockerfile_EclipseTemurin"
+                      folder: "spring_boot"
+                      image_name: "spring_boot_EclipseTemurin_image"
+                      service_port: 8041
+                      docker_port: 8080
+
+                    - dockerfile: "Dockerfile_Jlink"
+                      folder: "spring_boot"
+                      image_name: "spring_boot_Jlink_image"
+                      service_port: 8042
+                      docker_port: 8080
+
+        name: Build and Test Docker Images
+        uses: ./.github/workflows/buildAndTest.yml
+        with:
+            dockerfile: ${{ matrix.dockerfile }}
+            folder: ${{ matrix.folder }}
+            image_name: ${{ matrix.image_name }}
+            service_port: ${{ matrix.service_port }}
+            docker_port: ${{ matrix.docker_port }}

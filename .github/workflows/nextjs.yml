@@ -1,0 +1,42 @@
+name: Build/Test Nextjs
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        strategy:
+            matrix:
+                include:
+                    - dockerfile: "Dockerfile"
+                      folder: "nextjs"
+                      image_name: "nextjs_image"
+                      service_port: 8010
+                      docker_port: 3000
+
+                    - dockerfile: "Dockerfile_node_alpine"
+                      folder: "nextjs"
+                      image_name: "nextjs_node_alpine_image"
+                      service_port: 8011
+                      docker_port: 3000
+
+                    - dockerfile: "Dockerfile_yarn"
+                      folder: "nextjs"
+                      image_name: "nextjs_yarn_image"
+                      service_port: 8012
+                      docker_port: 3000
+
+        name: Build and Test Docker Images
+        uses: ./.github/workflows/buildAndTest.yml
+        with:
+            dockerfile: ${{ matrix.dockerfile }}
+            folder: ${{ matrix.folder }}
+            image_name: ${{ matrix.image_name }}
+            service_port: ${{ matrix.service_port }}
+            docker_port: ${{ matrix.docker_port }}
