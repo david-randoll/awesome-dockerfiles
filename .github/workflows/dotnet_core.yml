@@ -1,4 +1,4 @@
-name: Build and Test Docker Images for Dotnet Core
+name: Build and Test Docker Images for Multiple Platforms
 
 on:
     workflow_dispatch:
@@ -11,29 +11,35 @@ on:
 
 jobs:
     build:
-        uses: ./.github/workflows/build-and-test.yml
-        with:
-            matrix: |
-                [
-                  {
-                    "dockerfile": "Dockerfile",
-                    "folder": "dotnet_core",
-                    "image_name": "dotnet_core_image",
-                    "service_port": 8080,
-                    "docker_port": 5001
-                  },
-                  {
-                    "dockerfile": "Dockerfile_chiseled",
-                    "folder": "dotnet_core",
-                    "image_name": "dotnet_core_chiseled_image",
-                    "service_port": 8081,
-                    "docker_port": 5001
-                  },
-                  {
-                    "dockerfile": "Dockerfile_self_contained",
-                    "folder": "dotnet_core",
-                    "image_name": "dotnet_core_self_contained_image",
-                    "service_port": 8082,
-                    "docker_port": 5001
-                  }
-                ]
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                include:
+                    - dockerfile: "Dockerfile"
+                      folder: "dotnet_core"
+                      image_name: "dotnet_core_image"
+                      service_port: 8080
+                      docker_port: 5001
+                    - dockerfile: "Dockerfile_chiseled"
+                      folder: "dotnet_core"
+                      image_name: "dotnet_core_chiseled_image"
+                      service_port: 8081
+                      docker_port: 5001
+                    - dockerfile: "Dockerfile_self_contained"
+                      folder: "dotnet_core"
+                      image_name: "dotnet_core_self_contained_image"
+                      service_port: 8082
+                      docker_port: 5001
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Build and Test Docker Images
+              uses: ./.github/workflows/build-and-test.yml
+              with:
+                  dockerfile: ${{ matrix.dockerfile }}
+                  folder: ${{ matrix.folder }}
+                  image_name: ${{ matrix.image_name }}
+                  service_port: ${{ matrix.service_port }}
+                  docker_port: ${{ matrix.docker_port }}
