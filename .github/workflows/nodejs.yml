@@ -1,0 +1,36 @@
+name: Build/Test Nodejs
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        strategy:
+            matrix:
+                include:
+                    - dockerfile: "Dockerfile"
+                      folder: "nodejs"
+                      image_name: "nodejs_image"
+                      service_port: 8020
+                      docker_port: 3000
+
+                    - dockerfile: "Dockerfile_node_alpine"
+                      folder: "nodejs"
+                      image_name: "nodejs_node_alpine_image"
+                      service_port: 8021
+                      docker_port: 3000
+
+        name: Build and Test Docker Images
+        uses: ./.github/workflows/buildAndTest.yml
+        with:
+            dockerfile: ${{ matrix.dockerfile }}
+            folder: ${{ matrix.folder }}
+            image_name: ${{ matrix.image_name }}
+            service_port: ${{ matrix.service_port }}
+            docker_port: ${{ matrix.docker_port }}
