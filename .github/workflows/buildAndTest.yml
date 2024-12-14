@@ -44,7 +44,7 @@ jobs:
                   IMAGE_NAME=${{ matrix.image_name }}
                   FOLDER_NAME=${{ matrix.folder }}
                   FILE_NAME=${{ matrix.dockerfile }}
-                  docker buildx build --tag "$IMAGE_NAME" --file "$FOLDER_NAME/$FILE_NAME" "$FOLDER_NAME"
+                  docker build -t $IMAGE_NAME -f dotnet_core/Dockerfile $FOLDER_NAME
 
             - name: Run Docker Container
               run: |
