@@ -14,24 +14,40 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                dockerfile:
-                    - dotnet_core/Dockerfile
-                    - dotnet_core/Dockerfile_chiseled
-                    - dotnet_core/Dockerfile_self_contained
-                service_port: [8080]
+                include:
+                    - dockerfile: Dockerfile
+                      folder: dotnet_core
+                      image_name: dotnet_core_image
+                      service_port: 8080
+                      docker_port: 5001
+
+                    - dockerfile: Dockerfile_chiseled
+                      folder: dotnet_core
+                      image_name: dotnet_core_chiseled_image
+                      service_port: 8081
+                      docker_port: 5001
+
+                    - dockerfile: Dockerfile_self_contained
+                      folder: dotnet_core
+                      image_name: dotnet_core_self_contained_image
+                      service_port: 8082
+                      docker_port: 5001
         steps:
             - name: Checkout
               uses: actions/checkout@v4
 
             - name: Build Docker Image
               run: |
-                  IMAGE_NAME=$(basename ${{ matrix.dockerfile }})
-                  docker build -t $IMAGE_NAME -f ${{ matrix.dockerfile }} .
+                  IMAGE_NAME=${{ matrix.image_name }}
+                  FILE_PATH=${{ matrix.folder }}/${{ matrix.dockerfile }}
+                  docker build -t $IMAGE_NAME -f $FILE_PATH ${{ matrix.folder }}
 
             - name: Run Docker Container
               run: |
-                  IMAGE_NAME=$(basename ${{ matrix.dockerfile }})
-                  docker run -d --name $IMAGE_NAME-container -p ${{ matrix.service_port }}:5001 $IMAGE_NAME
+                  IMAGE_NAME=${{ matrix.image_name }}
+                  SERVICE_PORT=${{ matrix.service_port }}
+                  DOCKER_PORT=${{ matrix.docker_port }}
+                  docker run -d --name $IMAGE_NAME-container -p $SERVICE_PORT:$DOCKER_PORT $IMAGE_NAME
 
             - name: Wait for Service to Start
               run: |
@@ -49,6 +65,6 @@ jobs:
 
             - name: Stop and Remove Container
               run: |
-                  IMAGE_NAME=$(basename ${{ matrix.dockerfile }})
+                  IMAGE_NAME=${{ matrix.image_name }}
                   docker stop $IMAGE_NAME-container
                   docker rm $IMAGE_NAME-container
