@@ -1,0 +1,54 @@
+name: Build/Test Vuejs
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        strategy:
+            matrix:
+                include:
+                    - dockerfile: "Dockerfile"
+                      folder: "vuejs"
+                      image_name: "vuejs_image"
+                      service_port: 8030
+                      docker_port: 3000
+
+                    - dockerfile: "Dockerfile_alpine"
+                      folder: "vuejs"
+                      image_name: "vuejs_alpine_image"
+                      service_port: 8031
+                      docker_port: 80
+
+                    - dockerfile: "Dockerfile_alpine_nonroot"
+                      folder: "vuejs"
+                      image_name: "vuejs_alpine_nonroot_image"
+                      service_port: 8032
+                      docker_port: 80
+
+                    - dockerfile: "Dockerfile_busybox"
+                      folder: "vuejs"
+                      image_name: "vuejs_busybox_image"
+                      service_port: 8033
+                      docker_port: 3000
+
+                    - dockerfile: "Dockerfile_nginx"
+                      folder: "vuejs"
+                      image_name: "vuejs_nginx_image"
+                      service_port: 8034
+                      docker_port: 80
+
+        name: Build and Test Docker Images
+        uses: ./.github/workflows/buildAndTest.yml
+        with:
+            dockerfile: ${{ matrix.dockerfile }}
+            folder: ${{ matrix.folder }}
+            image_name: ${{ matrix.image_name }}
+            service_port: ${{ matrix.service_port }}
+            docker_port: ${{ matrix.docker_port }}

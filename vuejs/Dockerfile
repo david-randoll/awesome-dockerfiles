@@ -10,5 +10,5 @@ RUN npm run build
 FROM lipanski/docker-static-website:latest
 WORKDIR /var/www/html
 COPY --from=builder /app/dist ./
-EXPOSE 80
-CMD ["/busybox-httpd", "-f", "-v", "-p", "80"]
+EXPOSE 3000
+CMD ["/busybox-httpd", "-f", "-v", "-p", "3000"]
