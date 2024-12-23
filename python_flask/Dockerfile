@@ -1,7 +1,6 @@
-# Use an official Python runtime as a parent image
 FROM python:alpine
 WORKDIR /app
-COPY . /app
+COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 ENV FLASK_APP=app.py
