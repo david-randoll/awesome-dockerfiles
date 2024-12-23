@@ -1,8 +1,14 @@
-FROM python:alpine
+FROM python:alpine AS base
+
+FROM base AS builder
+COPY requirements.txt /requirements.txt
+RUN pip install --user -r /requirements.txt
+
+FROM base
+COPY --from=builder /root/.local /root/.local
 WORKDIR /app
 COPY . .
-RUN pip install --no-cache-dir -r requirements.txt
+ENV PATH=/root/.local/bin:$PATH
+
 EXPOSE 5000
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-CMD ["flask", "run"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
