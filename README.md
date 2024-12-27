@@ -16,6 +16,7 @@ Here are some stats for the current platforms:
 | [Node.js](nodejs)                | 62MB               |
 | [Spring Boot](spring_boot)       | 77MB               |
 | [Dotnet Core](dotnet_core)       | 53MB               |
+| [Python Flask](python_flask)     | 22.8MB             |
 
 ## How to Use
 
