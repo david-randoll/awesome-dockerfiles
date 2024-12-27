@@ -1,8 +1,10 @@
-FROM python:alpine AS builder
+FROM python:alpine AS base
+
+FROM base AS builder
 COPY requirements.txt /requirements.txt
 RUN pip install --user -r /requirements.txt
 
-FROM python:alpine
+FROM base AS final
 COPY --from=builder /root/.local /root/.local
 WORKDIR /app
 COPY . .
