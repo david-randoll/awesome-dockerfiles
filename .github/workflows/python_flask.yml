@@ -1,0 +1,36 @@
+name: Build/Test Python Flask
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        strategy:
+            matrix:
+                include:
+                    - dockerfile: "Dockerfile"
+                      folder: "python_flask"
+                      image_name: "python_flask_image"
+                      service_port: 8060
+                      docker_port: 5000
+
+                    - dockerfile: "Dockerfile_python_slim"
+                      folder: "python_flask"
+                      image_name: "python_flask_python_slim_image"
+                      service_port: 8061
+                      docker_port: 5000
+
+        name: Build and Test Docker Images
+        uses: ./.github/workflows/buildAndTest.yml
+        with:
+            dockerfile: ${{ matrix.dockerfile }}
+            folder: ${{ matrix.folder }}
+            image_name: ${{ matrix.image_name }}
+            service_port: ${{ matrix.service_port }}
+            docker_port: ${{ matrix.docker_port }}
