@@ -1,0 +1,11 @@
+{
+  "name": "angular-docker-demo",
+  "version": "1.0.0",
+  "description": "A lightweight Angular demo for Docker deployment",
+  "scripts": {
+    "serve": "python3 -m http.server 3000 --directory dist/angular",
+    "build": "echo 'Pre-built application ready for deployment'"
+  },
+  "keywords": ["angular", "docker", "lightweight", "demo"],
+  "private": true
+}
