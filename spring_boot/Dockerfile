@@ -42,4 +42,6 @@ COPY --from=build --chown=$APP_USER:$APP_USER /app/target/*.jar app.jar
 USER $APP_USER
 EXPOSE 8080
 ENV server.port=8080
+# Uncomment the line below to set the active profile
+# ENV spring.profiles.active=prod 
 CMD ["java", "-jar", "app.jar"]
