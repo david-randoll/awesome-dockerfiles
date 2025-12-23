@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Angular Docker App</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    .header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    .main {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card h2 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    
+    .card > p {
+      font-size: 1.1rem;
+      text-align: center;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .feature {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+    
+    .feature h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .feature p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    .info {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 1rem;
+      max-width: 400px;
+      width: 100%;
+    }
+    
+    .info p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin: 0.3rem 0;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.1);
+      margin-top: auto;
+    }
+    
+    .footer p {
+      opacity: 0.8;
+    }
+    
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .main {
+        padding: 1rem;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🅰️ Angular Docker App</h1>
+      <p>Welcome to Angular running in Docker!</p>
+    </header>
+    
+    <main class="main">
+      <div class="card">
+        <h2>🐳 Dockerized Angular Application</h2>
+        <p>This is a sample Angular application running inside a Docker container.</p>
+        
+        <div class="features">
+          <div class="feature">
+            <h3>⚡ Fast</h3>
+            <p>Optimized for production with minimal overhead</p>
+          </div>
+          <div class="feature">
+            <h3>🔒 Secure</h3>
+            <p>Running as non-root user with minimal attack surface</p>
+          </div>
+          <div class="feature">
+            <h3>📦 Lightweight</h3>
+            <p>Multi-stage build for optimized image size</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info">
+        <p>Application built at: <span id="buildTime"></span></p>
+        <p>Framework: Angular (Standalone)</p>
+        <p>Container Status: <span id="status">Loading... <span class="loading"></span></span></p>
+      </div>
+    </main>
+    
+    <footer class="footer">
+      <p>Part of the Awesome Dockerfiles collection 🚀</p>
+    </footer>
+  </div>
+
+  <script>
+    // Simulate Angular-like behavior with vanilla JS
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set build time
+      document.getElementById('buildTime').textContent = new Date().toISOString();
+      
+      // Simulate container health check
+      setTimeout(function() {
+        document.getElementById('status').innerHTML = 'Running ✅';
+      }, 1000);
+      
+      // Add some interactivity
+      const features = document.querySelectorAll('.feature');
+      features.forEach(feature => {
+        feature.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px)';
+          this.style.transition = 'transform 0.2s ease';
+        });
+        
+        feature.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

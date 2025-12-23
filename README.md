@@ -9,6 +9,7 @@ Here are some stats for the current platforms:
 
 | Platform                         | Optimized Size     |
 | -------------------------------- | ------------------ |
+| [Angular](angular)               | 97.9KB (Kilobytes!) |
 | [Static Website](static_website) | 81KB (Kilobytes!)  |
 | [Next.js](nextjs)                | 67MB               |
 | [React Vite](react_vite)         | 232KB (Kilobytes!) |

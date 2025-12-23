@@ -1,0 +1,18 @@
+# .dockerignore file
+.DS_Store
+node_modules
+.angular
+.git
+.gitignore
+README.md
+.dockerignore
+LICENSE
+.docker
+.gitlab
+Dockerfile*
+src/assets/.gitkeep
+e2e
+.nyc_output
+coverage
+.coverage
+.sass-cache
