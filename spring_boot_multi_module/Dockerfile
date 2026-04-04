@@ -26,14 +26,15 @@ RUN apk add --no-cache binutils && \
         --verbose \
         --add-modules $(cat modules.txt) \
         --strip-debug \
+        --strip-java-debug-attributes \
         --no-man-pages \
         --no-header-files \
-        --compress=2 \
+        --compress=zip-9 \
         --output /javaruntime && \
     rm -rf BOOT-INF META-INF app.jar modules.txt
 
 # Create a final image
-FROM alpine:3.20
+FROM alpine:3.21
 ENV JAVA_HOME=/opt/jdk/jdk-21
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 ARG APP_USER=spring
