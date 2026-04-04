@@ -1,0 +1,36 @@
+name: Build/Test Spring Boot Multi-Module
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        strategy:
+            matrix:
+                include:
+                    - dockerfile: "Dockerfile"
+                      folder: "spring_boot_multi_module"
+                      image_name: "spring_boot_multi_module_image"
+                      service_port: 8050
+                      docker_port: 8080
+
+                    - dockerfile: "Dockerfile_EclipseTemurin"
+                      folder: "spring_boot_multi_module"
+                      image_name: "spring_boot_multi_module_eclipse_temurin_image"
+                      service_port: 8051
+                      docker_port: 8080
+
+        name: Build and Test Docker Images
+        uses: ./.github/workflows/buildAndTest.yml
+        with:
+            dockerfile: ${{ matrix.dockerfile }}
+            folder: ${{ matrix.folder }}
+            image_name: ${{ matrix.image_name }}
+            service_port: ${{ matrix.service_port }}
+            docker_port: ${{ matrix.docker_port }}
