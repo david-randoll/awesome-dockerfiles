@@ -1,13 +1,17 @@
 # https://medium.com/@RoussiAbdelghani/optimizing-java-base-docker-images-size-from-674mb-to-58mb-c1b7c911f622
 FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
-COPY pom.xml .
-COPY src ./src
+COPY . .
 RUN mvn clean package -DskipTests
+# Find the Spring Boot executable JAR (contains BOOT-INF)
+RUN find . -path "*/target/*.jar" \
+    -exec sh -c 'jar tf "$1" 2>/dev/null | grep -q "^BOOT-INF/" && echo "$1"' _ {} \; \
+    | head -1 \
+    | xargs -I{} cp {} /app/app.jar
 
 FROM eclipse-temurin:21-jdk-alpine AS jre-builder
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/app.jar app.jar
 RUN apk add --no-cache binutils && \
     # Determine the modules required by the application
     jar -xf app.jar && \
@@ -39,10 +43,10 @@ RUN addgroup --system --gid 1001 "$APP_USER" && \
     adduser --system --uid 1001 --home /app --ingroup "$APP_USER" "$APP_USER" && \
     chown -R "$APP_USER":"$APP_USER" /app
 WORKDIR /app
-COPY --from=build --chown=$APP_USER:$APP_USER /app/target/*.jar app.jar
+COPY --from=build --chown=$APP_USER:$APP_USER /app/app.jar app.jar
 USER $APP_USER
 EXPOSE 8080
 ENV server.port=8080
 # Uncomment the line below to set the active profile
-# ENV spring.profiles.active=prod 
+# ENV spring.profiles.active=prod
 CMD ["java", "-jar", "app.jar"]

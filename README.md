@@ -7,16 +7,17 @@ Production-ready Dockerfiles for various platforms, designed for minimal image s
 The Dockerfiles in this repository are optimized to significantly reduce image sizes while maintaining functionality.
 Here are some stats for the current platforms:
 
-| Platform                         | Optimized Size     |
-| -------------------------------- | ------------------ |
-| [Static Website](static_website) | 81KB (Kilobytes!)  |
-| [Next.js](nextjs)                | 67MB               |
-| [React Vite](react_vite)         | 232KB (Kilobytes!) |
-| [Vue.js](vuejs)                  | 185KB (Kilobytes!) |
-| [Node.js](nodejs)                | 62MB               |
-| [Spring Boot](spring_boot)       | 77MB               |
-| [Dotnet Core](dotnet_core)       | 53MB               |
-| [Python Flask](python_flask)     | 22.8MB             |
+| Platform                                             | Optimized Size     |
+| ---------------------------------------------------- | ------------------ |
+| [Static Website](static_website)                     | 81KB (Kilobytes!)  |
+| [Next.js](nextjs)                                    | 67MB               |
+| [React / React Vite](react_vite)                     | 232KB (Kilobytes!) |
+| [Vue.js](vuejs)                                      | 185KB (Kilobytes!) |
+| [Node.js](nodejs)                                    | 62MB               |
+| [Spring Boot](spring_boot)                           | 77MB               |
+| [Spring Boot Multi-Module](spring_boot_multi_module) | ~77MB              |
+| [Dotnet Core](dotnet_core)                           | 53MB               |
+| [Python Flask](python_flask)                         | 22.8MB             |
 
 ## How to Use
 
