@@ -15,6 +15,7 @@ Here are some stats for the current platforms:
 | [Vue.js](vuejs)                  | 185KB (Kilobytes!) |
 | [Node.js](nodejs)                | 62MB               |
 | [Spring Boot](spring_boot)       | 77MB               |
+| [Spring Boot Multi-Module](spring_boot_multi_module) | ~77MB              |
 | [Dotnet Core](dotnet_core)       | 53MB               |
 | [Python Flask](python_flask)     | 22.8MB             |
 

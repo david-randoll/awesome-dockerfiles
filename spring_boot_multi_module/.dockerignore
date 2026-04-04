@@ -1,0 +1,14 @@
+# .dockerignore file
+.DS_Store
+.next
+node_modules
+.mvn
+.git
+.gitignore
+README.md
+.dockerignore
+LICENSE
+.docker
+.gitlab
+**/target
+*.log
